@@ -4,7 +4,7 @@ package com.ms.email.controllers;
 import com.ms.email.dtos.EmailDto;
 import com.ms.email.models.EmailModel;
 import com.ms.email.services.EmailService;
-import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,12 +25,10 @@ public class EmailController {
     @Autowired
     EmailService emailService;
 
-    @Autowired
-    ModelMapper modelMapper;
-
     @PostMapping("/sending-email")
     public ResponseEntity<EmailModel> sendingEmail(@RequestBody @Valid EmailDto emailDto) {
-        EmailModel emailModel = modelMapper.map(emailDto, EmailModel.class);
+        EmailModel emailModel = new EmailModel();
+        BeanUtils.copyProperties(emailDto, emailModel);
         emailService.sendEmail(emailModel);
         return new ResponseEntity<>(emailModel, HttpStatus.CREATED);
     }
