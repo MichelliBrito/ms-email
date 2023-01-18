@@ -24,12 +24,9 @@ public class EmailController {
     @Autowired
     EmailService emailService;
 
-    @PostMapping("/sending-email")
+    @PostMapping("/emails")
     public ResponseEntity<EmailModel> sendingEmail(@RequestBody @Valid EmailDto emailDto) {
-        EmailModel emailModel = new EmailModel();
-        BeanUtils.copyProperties(emailDto, emailModel);
-        emailService.sendEmail(emailModel);
-        return new ResponseEntity<>(emailModel, HttpStatus.CREATED);
+        return new ResponseEntity<>(emailService.sendEmail(emailDto.convertToEmailModel()), HttpStatus.CREATED);
     }
 
     @GetMapping("/emails")
