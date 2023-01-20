@@ -4,7 +4,8 @@ package com.ms.email.controllers;
 import com.ms.email.dtos.EmailDto;
 import com.ms.email.models.EmailModel;
 import com.ms.email.services.EmailService;
-import org.springframework.beans.BeanUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,8 @@ import java.util.UUID;
 @RestController
 public class EmailController {
 
+    Logger logger = LogManager.getLogger(EmailController.class);
+
     @Autowired
     EmailService emailService;
 
@@ -31,6 +34,12 @@ public class EmailController {
 
     @GetMapping("/emails")
     public ResponseEntity<Page<EmailModel>> getAllEmails(@PageableDefault(page = 0, size = 5, sort = "emailId", direction = Sort.Direction.DESC) Pageable pageable){
+        logger.trace("TRACE");
+        logger.debug("DEBUG");
+        logger.info("INFO");
+        logger.warn("WARN");
+        logger.error("ERROR");
+        logger.fatal("FATAL");
         return new ResponseEntity<>(emailService.findAll(pageable), HttpStatus.OK);
     }
 
