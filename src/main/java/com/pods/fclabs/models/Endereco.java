@@ -2,7 +2,10 @@ package com.pods.fclabs.models;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +14,9 @@ import java.util.UUID;
 
 @ApiModel(value = "Objeto Entereço", subTypes = {Endereco.class})
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "TB_ENDERECO")
 public class Endereco implements Serializable {
