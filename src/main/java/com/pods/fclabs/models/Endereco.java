@@ -40,6 +40,7 @@ public class Endereco implements Serializable {
     @ApiModelProperty(dataType = "String", example = "Cidade do usuario", required = true, position = 7)
     private String cidade;
     @ApiModelProperty(hidden = true)
+    @Column(name = "dt_criacao", updatable = false)
     private Date dtCriacao;
     @ApiModelProperty(hidden = true)
     private Date dtUltAlteracao;

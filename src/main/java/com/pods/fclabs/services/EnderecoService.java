@@ -12,6 +12,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 @Service
 public class EnderecoService {
 
@@ -22,9 +25,24 @@ public class EnderecoService {
 
     public Endereco salvar(Endereco endereco) {
         try {
+            if(nonNull(endereco.getId())) {
+                throw new EnderecoInvalidoException("Novo endereço não pode ter id");
+            }
             validadores.forEach(validador -> validador.valida(endereco));
             endereco.setId(UUID.randomUUID());
             endereco.setDtCriacao(Util.formatarData(new Date()));
+            endereco.setDtUltAlteracao(Util.formatarData(new Date()));
+            return repository.save(endereco);
+        } catch (EnderecoInvalidoException e) {
+            throw e;
+        }
+    }
+    public Endereco atualiza(Endereco endereco) {
+        try {
+            if(isNull(endereco.getId())) {
+                throw new EnderecoInvalidoException("É preciso id válido para atualizar endereço");
+            }
+            validadores.forEach(validador -> validador.valida(endereco));
             endereco.setDtUltAlteracao(Util.formatarData(new Date()));
             return repository.save(endereco);
         } catch (EnderecoInvalidoException e) {
