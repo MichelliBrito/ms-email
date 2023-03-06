@@ -1,4 +1,4 @@
-package com.ms.email.dtos;
+package com.pods.fclabs.dtos;
 
 import lombok.Data;
 
