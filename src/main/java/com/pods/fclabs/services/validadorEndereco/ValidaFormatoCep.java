@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import static java.util.Objects.isNull;
 
 @Component
-public class ValidaFormatoCep implements ValidadorEndereco{
+public class ValidaFormatoCep implements ValidadorEndereco {
     @Override
     public void valida(Endereco endereco) {
 
