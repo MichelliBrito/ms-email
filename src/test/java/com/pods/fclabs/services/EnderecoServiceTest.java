@@ -120,4 +120,12 @@ class EnderecoServiceTest {
         Mockito.verify(repository, Mockito.times(0)).save(endereco);
     }
 
+    @Test
+    public void DeveriaDeletarEndereco() {
+        UUID id = UUID.randomUUID();
+        service.remove(id);
+        Mockito.verify(repository, Mockito.times(1)).deleteById(id);
+        Mockito.verify(repository, Mockito.times(1)).getById(id);
+
+    }
 }

@@ -49,4 +49,9 @@ public class EnderecoService {
             throw e;
         }
     }
+
+    public Endereco remove(UUID id) {
+        repository.deleteById(id);
+        return repository.getById(id);
+    }
 }
