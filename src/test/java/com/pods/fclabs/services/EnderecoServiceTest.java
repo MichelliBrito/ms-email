@@ -47,7 +47,7 @@ class EnderecoServiceTest {
 
         ArgumentCaptor<Endereco> argumento = ArgumentCaptor.forClass(Endereco.class);
 
-        service.salvar(endereco);
+        service.salva(endereco);
 
         Mockito.verify(repository, Mockito.times(1)).save(argumento.capture());
         assertFalse(isNull(argumento.getValue().getDtCriacao()));
@@ -65,7 +65,7 @@ class EnderecoServiceTest {
                 .build();
 
         doThrow(EnderecoInvalidoException.class).when(validadores).forEach(any());
-        assertThrows(EnderecoInvalidoException.class,() -> service.salvar(endereco));
+        assertThrows(EnderecoInvalidoException.class,() -> service.salva(endereco));
         Mockito.verify(repository, Mockito.times(0)).save(endereco);
     }
     @Test
@@ -80,7 +80,7 @@ class EnderecoServiceTest {
                 .cidade("Juiz de Fora")
                 .build();
 
-        assertThrows(EnderecoInvalidoException.class,() -> service.salvar(endereco));
+        assertThrows(EnderecoInvalidoException.class,() -> service.salva(endereco));
         Mockito.verify(repository, Mockito.times(0)).save(endereco);
     }
 

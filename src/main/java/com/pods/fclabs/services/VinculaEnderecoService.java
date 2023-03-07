@@ -17,12 +17,12 @@ public class VinculaEnderecoService {
     @Autowired
     EnderecoService enderecoService;
 
-    public <T extends EntidadeComEnderecoEAuditoriaAbstrata> T vinculaEndereco(T entidade, Endereco endereco) {
+    public <T extends EntidadeComEnderecoEAuditoriaAbstrata> T vinculaNovoEndereco(T entidade, Endereco endereco) {
         try {
-            if (nonNull(entidade.getEndereco()))
-                throw new EnderecoInvalidoException("Não é possivel vincular endereço de entidade com endereço");
+            if (nonNull(endereco.getId()))
+                throw new EnderecoInvalidoException("Não é possivel vincular endereço que já exista");
 
-            Endereco resultado = enderecoService.salvar(endereco);
+            Endereco resultado = enderecoService.salva(endereco);
 
             entidade.setEndereco(resultado);
             entidade.setDtUltAlteracao(Util.formatarData(new Date()));
@@ -34,8 +34,8 @@ public class VinculaEnderecoService {
 
     public <T extends EntidadeComEnderecoEAuditoriaAbstrata> T atualizaEndereco(T entidade, Endereco endereco) {
         try {
-            if (isNull(entidade.getEndereco()))
-                throw new EnderecoInvalidoException("Não é possivel atualizar endereço de entidade sem endereço");
+            if (isNull(endereco.getId()))
+                throw new EnderecoInvalidoException("Não é possivel atualizar endereço que não exista");
             endereco.setId(entidade.getEndereco().getId());
 
             Endereco resultado = enderecoService.atualiza(endereco);
@@ -49,9 +49,21 @@ public class VinculaEnderecoService {
     }
 
     public <T extends EntidadeComEnderecoEAuditoriaAbstrata> T removeEndereco(T entidade) {
+        if(entidade.getEndereco() == null)
+            return entidade;
+
         enderecoService.remove(entidade.getEndereco().getId());
         entidade.setEndereco(null);
         entidade.setDtUltAlteracao(Util.formatarData(new Date()));
         return entidade;
+    }
+    public <T extends EntidadeComEnderecoEAuditoriaAbstrata> T ajustaEndereco(T entidade) {
+        if(isNull(entidade.getEndereco())) {
+            return removeEndereco(entidade);
+        }
+        if(isNull(entidade.getId()) || isNull(entidade.getEndereco().getId())) {
+            return vinculaNovoEndereco(entidade, entidade.getEndereco());
+        }
+        return atualizaEndereco(entidade, entidade.getEndereco());
     }
 }

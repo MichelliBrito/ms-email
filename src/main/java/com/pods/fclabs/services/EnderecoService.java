@@ -23,7 +23,7 @@ public class EnderecoService {
     @Autowired
     private List<ValidadorEndereco> validadores;
 
-    public Endereco salvar(Endereco endereco) {
+    public Endereco salva(Endereco endereco) {
         try {
             if(nonNull(endereco.getId())) {
                 throw new EnderecoInvalidoException("Novo endereço não pode ter id");

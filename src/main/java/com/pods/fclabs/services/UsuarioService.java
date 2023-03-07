@@ -13,11 +13,15 @@ import com.pods.fclabs.models.UsuarioResponse;
 import com.pods.fclabs.repositories.UsuarioRepository;
 import com.pods.fclabs.util.Util;
 
+import static java.util.Objects.isNull;
+
 @Service
 public class UsuarioService {
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
+	@Autowired
+	VinculaEnderecoService vinculaEnderecoService;
 
 	@Autowired
 	private Util util;
@@ -29,6 +33,7 @@ public class UsuarioService {
 		try {
 
 			validaCamposObrigatorios.validaCamposObrigatoriosUsuario(usuario);
+			vinculaEnderecoService.ajustaEndereco(usuario);
 			usuario.setId(UUID.randomUUID());
 			usuario.setDtCriacao(Util.formatarData(new Date()));
 			usuario.setDtUltAlteracao(Util.formatarData(new Date()));
@@ -42,6 +47,7 @@ public class UsuarioService {
 	public UsuarioResponse atualiza(Usuario usuario) {
 		validaCamposObrigatorios.validaIdUsuario(usuario.getId());
 		validaCamposObrigatorios.validaCamposObrigatoriosUsuario(usuario);
+		vinculaEnderecoService.ajustaEndereco(usuario);
 		usuario.setDtUltAlteracao(Util.formatarData(new Date()));
 		return util.converteUsuarioInResponse(usuarioRepository.save(usuario));
 	}
@@ -60,6 +66,6 @@ public class UsuarioService {
 		usuarioRepository.delete(usuarioRepository.getById(id));
 		return util.converteUsuarioInResponse(usuarioRepository.getById(id));
 	}
-	
+
 
 }

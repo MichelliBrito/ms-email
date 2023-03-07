@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 import java.util.Date;
+import java.util.UUID;
+
 @MappedSuperclass
 @Data
 public abstract class EntidadeComEnderecoEAuditoriaAbstrata {
@@ -16,6 +18,8 @@ public abstract class EntidadeComEnderecoEAuditoriaAbstrata {
     @ApiModelProperty(hidden = true)
     private Date dtUltAlteracao;
     @ApiModelProperty(dataType = "Endereco", example = "Endereco do usuario", required = true, position = 4)
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     private Endereco endereco;
+
+    public abstract UUID getId();
 }
